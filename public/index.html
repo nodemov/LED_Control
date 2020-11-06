@@ -1,0 +1,65 @@
+<!doctype html>
+
+<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <title>Mini Project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+                integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+                crossorigin="anonymous" />
+        <script src="socket.io/socket.io.js"></script>
+</head>
+
+<body>
+        <div>
+                <div style="margin-bottom: 80px;">
+                        <img id="bulb" src="of.png">
+                        <br>
+                        <h1>เลื่อนเพื่อเพิ่มลดแสง LED</h1>
+                        <br>
+                        <i class="fas fa-adjust"></i> <input type="range" id="inputSlider" min="0" max="255" value="50"
+                                step="1" oninput="showValue(this.value)" /> <i class="fas fa-sun"></i>
+                </div>
+                <div style="margin-top: 60px;">
+                        <span id="outputText">50</span>
+                </div>
+
+        </div>
+        <script type="text/javascript">
+                var socket = io.connect();
+
+                socket.on('led', function (data) {
+                        document.getElementById("inputSlider").value = data.value;
+                        document.getElementById("outputText").innerHTML = data.value;
+                });
+
+                function light(value) {
+                        var pic;
+                        if (value == 0) {
+                                pic = "of.png";
+                        } else {
+                                pic = "on.png";
+                        }
+                        document.getElementById('bulb').src = pic;
+                }
+
+                function showValue(newValue) {
+                        document.getElementById("outputText").innerHTML = newValue;
+                        socket.emit('led', {
+                                value: newValue
+                        });
+                        if (newValue >= 128) {
+                                light(1);
+                        } else {
+                                light(0);
+                        }
+                }
+        </script>
+
+</body>
+
+</html>

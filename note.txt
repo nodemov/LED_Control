@@ -1,0 +1,7 @@
+RUN LOCAL TO PUBLIC SERVER
+./ngrok http 8080
+
+RUN BOARD Working
+node brightness_control.js
+
+
