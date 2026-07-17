@@ -9,11 +9,11 @@ var serialPort = new SerialPort("/COM7", { baudRate: 9600 });
 server.listen(8080);
 app.use(express.static('public'));             
  
-var brightness = 0;
+var brightness = 50;
  
 io.sockets.on('connection', function (socket) {
         socket.on('led', function (data) {
-                brightness = data.value;
+                brightness = Number(data.value);
                 // console.log(brightness);
                
                 var buf = Buffer.alloc(1);

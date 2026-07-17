@@ -64,11 +64,26 @@ input[type="range"]::-webkit-slider-thumb {
 	transition: .3s ease-in-out;
 }
 
-​ input[type="range"]::-webkit-slider-thumb:hover {
+input[type="range"]::-webkit-slider-thumb:hover {
 	background-color: white;
 	border: 2px solid #34495e;
 }
 
 input[type="range"]::-webkit-slider-thumb:active {
 	transform: scale(1.6);
+}
+
+#bulb {
+	font-size: 6em;
+	margin-bottom: 20px;
+	display: inline-block;
+}
+
+.bulb-off {
+	color: #95a5a6;
+}
+
+.bulb-on {
+	color: #f1c40f;
+	text-shadow: 0 0 20px #f39c12;
 }
