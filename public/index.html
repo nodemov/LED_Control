@@ -17,7 +17,7 @@
 <body>
         <div>
                 <div style="margin-bottom: 80px;">
-                        <img id="bulb" src="of.png">
+                        <i id="bulb" class="fas fa-lightbulb bulb-off"></i>
                         <br>
                         <h1>เลื่อนเพื่อเพิ่มลดแสง LED</h1>
                         <br>
@@ -33,31 +33,31 @@
                 var socket = io.connect();
 
                 socket.on('led', function (data) {
-                        document.getElementById("inputSlider").value = data.value;
-                        document.getElementById("outputText").innerHTML = data.value;
+                        var value = Number(data.value);
+                        document.getElementById("inputSlider").value = value;
+                        document.getElementById("outputText").innerHTML = value;
+                        updateBulb(value);
                 });
 
-                function light(value) {
-                        var pic;
-                        if (value == 0) {
-                                pic = "of.png";
+                function updateBulb(value) {
+                        var bulb = document.getElementById('bulb');
+                        if (value === 0) {
+                                bulb.classList.remove('bulb-on');
+                                bulb.classList.add('bulb-off');
                         } else {
-                                pic = "on.png";
+                                bulb.classList.remove('bulb-off');
+                                bulb.classList.add('bulb-on');
                         }
-                        document.getElementById('bulb').src = pic;
                 }
 
                 function showValue(newValue) {
-                        document.getElementById("outputText").innerHTML = newValue;
-                        socket.emit('led', {
-                                value: newValue
-                        });
-                        if (newValue >= 128) {
-                                light(1);
-                        } else {
-                                light(0);
-                        }
+                        var value = Number(newValue);
+                        document.getElementById("outputText").innerHTML = value;
+                        socket.emit('led', { value: value });
+                        updateBulb(value);
                 }
+
+                updateBulb(Number(document.getElementById("inputSlider").value));
         </script>
 
 </body>
